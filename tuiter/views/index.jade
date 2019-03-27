@@ -1,0 +1,46 @@
+doctype
+html
+	head
+		script(type='text/javascript', src='/javascripts/jquery.js')
+		script(type='text/javascript', src='/javascripts/socket.io.js')
+		link(rel='stylesheet', href='/stylesheets/styles.css').
+		script(type='text/javascript', src= '/javascripts/tuits_load.js')
+		title= title
+	body
+		#headerdiv
+			table(width="100%")
+				tr
+					td
+						h1 Tuiter 
+						hr
+						h6 Sistemas Operativos 1 | Proyecto 1
+					td(align="right")
+						img(src="/images/tuiter.png").
+		#separator
+		div
+			#lateral
+				#bloque
+					b Información Tuiter
+					hr
+					ul
+						li(id='no_usuarios') usuarios
+						li(id='no_categorias') categorias
+						li(id='no_tuits') tuitts
+				#bloque
+					b Consultar usuario
+					hr
+					form(action='/user/' method='get')
+						Usuario
+						input(name='id' type='text' width='100px')
+						input(value='Consultar' type='submit')
+				#bloque
+					b Consultar categoria
+					hr
+					form(action='/category/' method='get')
+						Usuario
+						input(name='id' type='text' width='100px')
+						input(value='Consultar' type='submit')
+			#content
+				nav 
+				#result
+	
