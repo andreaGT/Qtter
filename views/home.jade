@@ -1,0 +1,54 @@
+doctype
+html
+	head
+		//- script(type='text/javascript', src='/javascripts/jquery.js')
+		//- script(type='text/javascript', src='/javascripts/socket.io.js')
+		script(type='text/javascript', src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
+		script(type='text/javascript', src='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js')
+		link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css').
+		link(rel='stylesheet', href='/stylesheets/styleL.css').
+		link(rel='stylesheet', href='/stylesheets/styles.css').
+		//- script(type='text/javascript', src= '/javascripts/tuits_load.js')
+		title= title
+	body
+		// Navigation
+		nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.static-top
+			.container
+				a.navbar-brand(href='#')
+					img(src='/images/twittq.png' width='80px')
+				button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarResponsive', aria-controls='navbarResponsive', aria-expanded='false', aria-label='Toggle navigation')
+					span.navbar-toggler-icon
+				#navbarResponsive.collapse.navbar-collapse
+					ul.navbar-nav.ml-auto
+						li.nav-item.active
+						a.nav-link(href='#')
+							| Feed
+							span.sr-only (current)
+						li.nav-item
+						a.nav-link(href='#') Users
+						li.nav-item
+						a.nav-link(href='#') Trendings
+						li.nav-item
+						a.nav-link(href='#') Global
+		// Page Content
+		.container
+			div
+						#lateral
+							#bloque
+								h5.login-heading.mb-4 Consultar usuario
+								hr
+								form(action='/user/' method='get')
+									Usuario
+									input(name='id' type='text' width='100px')
+									input(value='Consultar' type='submit')
+							#bloque
+								b Consultar categoria
+								hr
+								form(action='/category/' method='get')
+									Usuario
+									input(name='id' type='text' width='100px')
+									input(value='Consultar' type='submit')
+						#content
+							nav 
+							#result
+		// /.container

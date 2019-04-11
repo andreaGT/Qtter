@@ -16,7 +16,7 @@ function getCategory(text){
 
 module.exports = function(app){
 	
-	app.get('/',function(req, res){
+	app.get('/home',function(req, res){
 		try{
 			tdb.new(
 				{
@@ -29,7 +29,7 @@ module.exports = function(app){
 				function(e){}
 				);
 		}catch(err){}
-		res.render('index',{ title: 'Lista de usuarios', script: '/javascripts/tuits_load.js' });
+		res.render('home',{ title: 'Lista de usuarios', script: '/javascripts/tuits_load.js' });
 	});
 	
 	app.get('/user/', function(req, res){
@@ -52,10 +52,10 @@ module.exports = function(app){
 		}catch(err){}
 	});
 	
-	app.post('/',function(req, res){
+	app.post('/home',function(req, res){
 		tdb.new({name: req.param('name'), email: req.param('email')}, function(e){
 			tdb.list(function(e, usrs){
-				res.render('index',{ title: 'Lista de usuarios', users: usrs });
+				res.render('home',{ title: 'Lista de usuarios', users: usrs });
 			})
 		})	
 	});
