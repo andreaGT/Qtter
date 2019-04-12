@@ -1,10 +1,10 @@
-// var Db = require('mongodb').Db;
-// var Server = require('mongodb').Server;
+var Db = require('mongodb').Db;
+var Server = require('mongodb').Server;
 
 // //var dPort = 27017;
 // var dPort = 27020;
 // //var dHost = "localhost";
-// var dHost = "192.168.1.4";
+var dHost = {mongodb_host};
 // var dName = "tuiter";
 
 // var tuiterDb = {};
