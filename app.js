@@ -2,7 +2,10 @@
 /**
  * Module dependencies.
  */
-
+var session = require('express-session');
+var methodOverride = require('method-override');
+var bodyParser = require('body-parser');
+var errorHandler = require('errorhandler');
 var express = require('express');
 
 var app = express()
@@ -17,23 +20,14 @@ var home = require('./routes/home');
 //var io = require('socket.io')(http);
 // Configuration
 
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.set('port', process.env.PORT || 3000);
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-});
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.set('port', process.env.PORT || 3000);
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(express.static(__dirname + '/public'));
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-app.configure('production', function(){
-  app.use(express.errorHandler());
-});
+app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 
 // Routes
 

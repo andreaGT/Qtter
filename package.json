@@ -1,9 +1,25 @@
 {
-    "name": "application-name"
-  , "version": "0.0.1"
-  , "private": true
-  , "dependencies": {
-      "express": "2.5.8"
-    , "jade": ">= 0.0.1"
+  "name": "qtter",
+  "description": "Project of advanced database class",
+  "version": "1.0.0",
+  "license": "Apache Version 2.0",
+  "engines": {
+    "node": ">=8"
+  },
+  "repository": "https://github.com/andreaGT/Qtter",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "latest",
+    "mongodb": "latest",
+    "redis": "^2.8.0",
+    "jade": "latest",
+    "body-parser": "^1.8",
+    "express-session": "*",
+    "errorhandler": "*",
+    "method-override": "*"
   }
 }
