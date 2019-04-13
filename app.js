@@ -16,8 +16,9 @@ var tdb = require('./models/tuits.js')
 //variables routes
 var login = require('./routes/login');
 var home = require('./routes/home');
-//var app = module.exports = express.createServer();
-//var io = require('socket.io')(http);
+var profile = require('./routes/profile');
+var trend = require('./routes/trend');
+
 // Configuration
 const PORT = process.env.PORT || 8080;
 
@@ -29,13 +30,12 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 
-// Routes
-
-//app.get('/', routes.index);
-
 //Define routes
 login(app);
 home(app);
+profile(app);
+trend(app);
+
 
 // io.on('connection', function(socket){
 //   socket.on('get_tuits', function(msg){

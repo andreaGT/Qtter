@@ -5,6 +5,6 @@ module.exports = function(app){
 	});
 
 	app.post('/',function(req,res){
-		res.render('home',{title: 'Qtter'});
+		res.render('home',{title: 'Qtter', user_id: 'Andrea'});
 	})
 }

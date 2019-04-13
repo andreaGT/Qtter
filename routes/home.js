@@ -59,4 +59,16 @@ module.exports = function(app){
 			})
 		})	
 	});
+
+	app.get('/profile/', function(req, res){
+		try{
+			res.render('profile', {title: 'Qtter '});
+		}catch(err){}
+	});
+
+	app.get('/trend/', function(req, res){
+		try{
+			res.render('trend', {title: 'Qtter '});
+		}catch(err){}
+	});
 }
