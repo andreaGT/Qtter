@@ -20,6 +20,7 @@
     "body-parser": "^1.8",
     "express-session": "*",
     "errorhandler": "*",
-    "method-override": "*"
+    "method-override": "*",
+    "nconf": "^0.10.0"
   }
 }

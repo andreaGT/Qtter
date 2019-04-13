@@ -1,10 +1,17 @@
-var Db = require('mongodb').Db;
-var Server = require('mongodb').Server;
+const mongodb = require('mongodb');
+const http = require('http');
+const nconf = require('nconf');
 
+// a keys.json file, or in environment variables
+nconf
+  .argv()
+  .env()
+  .file('../keys.json');
+
+var dHost = nconf.get('mongoHost');
 // //var dPort = 27017;
 // var dPort = 27020;
 // //var dHost = "localhost";
-var dHost = {mongodb_host};
 // var dName = "tuiter";
 
 // var tuiterDb = {};
