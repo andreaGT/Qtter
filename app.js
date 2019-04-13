@@ -19,10 +19,10 @@ var home = require('./routes/home');
 //var app = module.exports = express.createServer();
 //var io = require('socket.io')(http);
 // Configuration
+const PORT = process.env.PORT || 8080;
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static(__dirname + '/public'));
@@ -65,6 +65,7 @@ home(app);
 //   });
 // });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+// Start the server
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
 });
