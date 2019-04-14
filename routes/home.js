@@ -8,6 +8,19 @@
 };*/
 
 var tdb = require('../models/tuits')
+var documents = [{username : 'uno', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'uno1'},
+	{username : 'dos', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'dos2'},
+	{username : 'tres', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'tres3'}];
+
+tdb.data.createConnection(function(db, client){
+	tdb.data.insertDocuments(db, documents, function(result){
+		console.log("Fin insercion documento");
+		console.dir(result);
+	});
+	client.close();
+	console.log("Conexion cerrada");
+})
+
 
 function getCategory(text){
 	var cat = text.split("#")[1].split(" ")[0];

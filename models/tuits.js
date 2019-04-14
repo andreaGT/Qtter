@@ -1,6 +1,6 @@
-const mongodb = require('mongodb');
 const http = require('http');
 const nconf = require('nconf');
+const assert = require('assert');
 
 // a keys.json file, or in environment variables
 nconf
@@ -8,7 +8,49 @@ nconf
   .env()
   .file('../keys.json');
 
-var dHost = nconf.get('mongoHost');
+//var dHost = nconf.get('mongoHost');
+
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://root:Seguridad10@cluster0-7gpmj.gcp.mongodb.net/test?retryWrites=true";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+const dbName = 'twitter';
+
+var functions = {};
+
+functions.createConnection = function(callback){
+    client.connect(err => {
+        //const collection = client.db("twitter").collection("user");
+        //console.dir(collection);
+        // perform actions on the collection object
+
+        const db = client.db(dbName);
+
+        /*insertDocuments(db, function() {
+            client.close();
+        });*/
+        console.log("Conexion creada");
+        callback(db, client);
+    });
+}
+
+
+
+functions.insertDocuments = function(db, documents, callback) {
+    // Get the documents collection
+    const collection = db.collection('user');
+    // Insert some documents
+    collection.insertMany(documents, function(err, result) {
+        assert.equal(err, null);
+        assert.equal(3, result.result.n);
+        assert.equal(3, result.ops.length);
+        console.log("Inserted 3 documents into the collection");
+        callback(result);
+    });
+}
+
+exports.data = functions;
+
+
 // //var dPort = 27017;
 // var dPort = 27020;
 // //var dHost = "localhost";
@@ -18,7 +60,7 @@ var dHost = nconf.get('mongoHost');
 
 // tuiterDb.db = new Db(dName, new Server(dHost, dPort,{auto_reconnect: true},{}))
 // tuiterDb.db.open(function(e, d){
-// 	if(e) 
+// 	if(e)
 // 		console.log(e)
 // 	else
 // 		console.log("Conectado a la base de datos: " + dName);
