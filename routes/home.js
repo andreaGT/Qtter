@@ -7,19 +7,28 @@
   res.render('index', { title: 'Express' })
 };*/
 
-var tdb = require('../models/tuits')
+var tdb = require('../models/tuits');
+
+//usuarios a insertar...
 var documents = [{username : 'uno', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'uno1'},
 	{username : 'dos', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'dos2'},
 	{username : 'tres', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'tres3'}];
 
+//se llama a la function createConnection en cada metodo, dicha funcion retorna db y client desde tuits.js
 tdb.data.createConnection(function(db, client){
 	tdb.data.insertDocuments(db, documents, function(result){
 		console.log("Fin insercion documento");
-		console.dir(result);
+		//console.log("Resultado n" + result.result.n);
+
+		//ops retorna los documentos insertados junto al id generado por mongodb
+		for(var i = 0; i <= result.ops.length-1; i++){
+			console.log("username: " + result.ops[i].username + ", id: " + result.ops[i]._id.toString());
+		}
+		//console.dir(result.ops);
 	});
 	client.close();
 	console.log("Conexion cerrada");
-})
+});
 
 
 function getCategory(text){
