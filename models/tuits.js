@@ -19,111 +19,54 @@ var functions = {};
 
 functions.createConnection = function(callback){
     client.connect(err => {
-        //const collection = client.db("twitter").collection("user");
-        //console.dir(collection);
-        // perform actions on the collection object
 
         const db = client.db(dbName);
-
-        /*insertDocuments(db, function() {
-            client.close();
-        });*/
         console.log("Conexion creada");
         callback(db, client);
     });
 }
 
-
-
-functions.insertDocuments = function(db, documents, callback) {
+functions.insertTweet = function(db, documents, callback) {
     // Get the documents collection
-    const collection = db.collection('user');
+    const collection = db.collection('bitacora_tweets');
     // Insert some documents
     collection.insertMany(documents, function(err, result) {
         assert.equal(err, null);
-        assert.equal(3, result.result.n);
-        assert.equal(3, result.ops.length);
-        console.log("Inserted 3 documents into the collection");
+        console.log("Inserted "+ result.result.n +" tweets into the collection bitacora_tweets");
+        callback(result);
+    });
+}
+
+functions.getTweets = function(db, callback){
+    const collection = db.collection('bitacora_tweets');
+    // Find some documents
+    collection.find({}).toArray(function(err, tweets) {
+        assert.equal(err, null);
+        console.log("Found the following tweets");
+        callback(tweets);
+    });
+}
+
+functions.getTweetsByQuery = function(db, query, callback){
+    const collection = db.collection('bitacora_tweets');
+    // Find some tweets
+    collection.find(query).toArray(function(err, tweets) {
+        assert.equal(err, null);
+        console.log("Found the following tweets");
+        console.log(tweets);
+        callback(tweets);
+    });
+}
+
+functions.deleteTweet = function(db, query, callback){
+    const collection = db.collection('bitacora_tweets');
+    // Delete tweet
+    collection.deleteOne(query, function(err, result) {
+        assert.equal(err, null);
+        assert.equal(1, result.result.n);
+        console.log("Removed the tweet with the query " + query);
         callback(result);
     });
 }
 
 exports.data = functions;
-
-
-// //var dPort = 27017;
-// var dPort = 27020;
-// //var dHost = "localhost";
-// var dName = "tuiter";
-
-// var tuiterDb = {};
-
-// tuiterDb.db = new Db(dName, new Server(dHost, dPort,{auto_reconnect: true},{}))
-// tuiterDb.db.open(function(e, d){
-// 	if(e)
-// 		console.log(e)
-// 	else
-// 		console.log("Conectado a la base de datos: " + dName);
-// });
-
-// tuiterDb.tuits = tuiterDb.db.collection('tuits');
-// module.exports = tuiterDb;
-
-// //nuevo tuitit
-// tuiterDb.new = function(newData, callback){
-// 	tuiterDb.tuits.insert(newData, callback(null))
-// }
-
-// tuiterDb.list = function(callback){
-// 	tuiterDb.tuits.find().sort({'time':-1}).toArray(function(e, res){
-// 		if(e)
-// 			callback(e)
-// 		else
-// 			callback(null, res)
-// 	})
-// }
-
-// tuiterDb.countTuits = function(callback){
-// 	tuiterDb.tuits.count(function(err,res){
-// 		if(err)
-// 			callback(err)
-// 		else
-// 			callback(null, res)
-// 	})
-// }
-
-// tuiterDb.userList = function(callback){
-// 	tuiterDb.tuits.distinct('user',function(err,items){
-// 		if(err)
-// 			callback(err)
-// 		else
-// 			callback(null,items)
-// 	})
-// }
-
-// tuiterDb.catList = function(callback){
-// 	tuiterDb.tuits.distinct('category',function(err,items){
-// 		if(err)
-// 			callback(err)
-// 		else
-// 			callback(null,items)
-// 	})
-// }
-
-// tuiterDb.userTuitList= function(usr,callback){
-// 	tuiterDb.tuits.find({'user':usr}).toArray(function(err, tuits){
-// 		if(err)
-// 			callback(err)
-// 		else
-// 			callback(null,tuits)
-// 	})
-// }
-
-// tuiterDb.catTuitList= function(cat, callback){
-// 	tuiterDb.tuits.find({'category':cat}).toArray(function(err, tuits){
-// 		if(err)
-// 			callback(err)
-// 		else
-// 			callback(null,tuits)
-// 	})
-// }

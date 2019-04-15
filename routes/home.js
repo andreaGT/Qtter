@@ -8,27 +8,110 @@
 };*/
 
 var tdb = require('../models/tuits');
+var usr = require('../models/users');
+
+// USUARIOS
 
 //usuarios a insertar...
-var documents = [{username : 'uno', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'uno1'},
-	{username : 'dos', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'dos2'},
-	{username : 'tres', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'tres3'}];
+var documents = [{username : 'master2', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'uno1'},
+	{username : 'chapin', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'dos2'},
+	{username : 'jorge1', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'tres3'}];
 
 //se llama a la function createConnection en cada metodo, dicha funcion retorna db y client desde tuits.js
-tdb.data.createConnection(function(db, client){
-	tdb.data.insertDocuments(db, documents, function(result){
+/*usr.data.createConnection(function(db, client){
+	usr.data.insertUser(db, documents, function(result){
 		console.log("Fin insercion documento");
-		//console.log("Resultado n" + result.result.n);
 
 		//ops retorna los documentos insertados junto al id generado por mongodb
 		for(var i = 0; i <= result.ops.length-1; i++){
 			console.log("username: " + result.ops[i].username + ", id: " + result.ops[i]._id.toString());
 		}
-		//console.dir(result.ops);
 	});
 	client.close();
 	console.log("Conexion cerrada");
-});
+});*/
+
+/*usr.data.createConnection(function(db, client){
+	usr.data.getUsers(db, function(users){
+		//console.dir(users);
+
+		for(var i = 0; i<=users.length-1; i++){
+			console.log(users[i].username);
+		}
+	});
+	client.close();
+	console.log("Conexión cerrada");
+});*/
+
+var query = {'username': 'andrea'};
+
+/*usr.data.createConnection(function(db, client){
+	usr.data.getUsersByQuery(db, query, function(users){
+		for(var i = 0; i<=users.length-1; i++){
+			console.log("Usuario encontrado: " + users[i].username);
+		}
+	});
+	client.close();
+});*/
+
+query = {'username': 'master2'};
+/*usr.data.createConnection(function(db, client){
+	usr.data.deleteUser(db, query, function(result){
+		console.log("Deleted users, cantidad: " + result.result.n);
+	});
+});*/
+
+
+// TWEETS
+var tweets = [{username : 'master2', tweet: 'Bases de datos avanzadas rules', 'fecha_creacion': '14/04/19'},
+	{username : 'chapin', tweet: 'Clima GT', 'fecha_creacion': '14/04/19'},
+	{username : 'jorge1', tweet: '#Increible', 'fecha_creacion': '14/04/19'}];
+
+/*tdb.data.createConnection(function(db, client){
+	tdb.data.insertTweet(db, tweets, function(result){
+		console.log("Fin insercion tweet");
+
+		//ops retorna los documentos insertados junto al id generado por mongodb
+		for(var i = 0; i <= result.ops.length-1; i++){
+			console.log("tweet: " + result.ops[i].tweet + ", id: " + result.ops[i]._id.toString());
+		}
+	});
+	client.close();
+	console.log("Conexion cerrada");
+});*/
+
+/*tdb.data.createConnection(function(db, client){
+	tdb.data.getTweets(db, function(tweets){
+		//console.dir(tweets);
+
+		for(var i = 0; i<=tweets.length-1; i++){
+			console.log(tweets[i].tweet);
+		}
+	});
+	client.close();
+	console.log("Conexión cerrada");
+});*/
+
+var query = {'username': 'andrea'};
+
+/*tdb.data.createConnection(function(db, client){
+	tdb.data.getTweetsByQuery(db, query, function(tweets){
+		for(var i = 0; i<=tweets.length-1; i++){
+			console.log("Tweet encontrado: " + tweets[i].tweet);
+		}
+	});
+	client.close();
+});*/
+
+query = {'username': 'chapin'};
+/*tdb.data.createConnection(function(db, client){
+	tdb.data.deleteTweet(db, query, function(result){
+		console.log("Deleted tweets, cantidad: " + result.result.n);
+	});
+});*/
+
+
+
 
 
 function getCategory(text){
@@ -37,7 +120,7 @@ function getCategory(text){
 }
 
 module.exports = function(app){
-	
+
 	app.get('/home',function(req, res){
 		try{
 			tdb.new(

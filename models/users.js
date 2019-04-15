@@ -1,33 +1,81 @@
-// var Db = require('mongodb').Db;
-// var Server = require('mongodb').Server;
+const http = require('http');
+const nconf = require('nconf');
+const assert = require('assert');
 
-// var dPort = 27017;
-// var dHost = "localhost";
-// var dName = "tuiter";
+// a keys.json file, or in environment variables
+nconf
+    .argv()
+    .env()
+    .file('../keys.json');
 
-// var tuiterDb = {};
+//var dHost = nconf.get('mongoHost');
 
-// tuiterDb.db = new Db(dName, new Server(dHost, dPort,{auto_reconnect: true},{}))
-// tuiterDb.db.open(function(e, d){
-// 	if(e) 
-// 		console.log(e)
-// 	else
-// 		console.log("Conectado a la base de datos: " + dName);
-// });
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://root:Seguridad10@cluster0-7gpmj.gcp.mongodb.net/test?retryWrites=true";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+const dbName = 'twitter';
 
-// tuiterDb.users = tuiterDb.db.collection('tuits');
-// module.exports = tuiterDb;
+var functions = {};
 
-// //nuevo usuario
-// tuiterDb.new = function(newData, callback){
-// 	tuiterDb.users.insert(newData, callback(null))
-// }
+functions.createConnection = function(callback){
+    client.connect(err => {
+        //const collection = client.db("twitter").collection("user");
+        //console.dir(collection);
+        // perform actions on the collection object
 
-// tuiterDb.list = function(callback){
-// 	tuiterDb.users.find().toArray(function(e, res){
-// 		if(e)
-// 			callback(e)
-// 		else
-// 			callback(null, res)
-// 	})
-// }
+        const db = client.db(dbName);
+
+        /*insertDocuments(db, function() {
+            client.close();
+        });*/
+        console.log("Conexion creada");
+        callback(db, client);
+    });
+}
+
+functions.insertUser = function(db, documents, callback) {
+    // Get the documents collection
+    const collection = db.collection('user');
+    // Insert some documents
+    collection.insertMany(documents, function(err, result) {
+        assert.equal(err, null);
+        assert.equal(3, result.result.n);
+        assert.equal(3, result.ops.length);
+        console.log("Inserted 3 users into the collection users");
+        callback(result);
+    });
+}
+
+functions.getUsers = function(db, callback){
+    const collection = db.collection('user');
+    // Find some documents
+    collection.find({}).toArray(function(err, users) {
+        assert.equal(err, null);
+        console.log("Found the following users");
+        callback(users);
+    });
+}
+
+functions.getUsersByQuery = function(db, query, callback){
+    const collection = db.collection('user');
+    // Find some documents
+    collection.find(query).toArray(function(err, users) {
+        assert.equal(err, null);
+        console.log("Found the following users");
+        console.log(users);
+        callback(users);
+    });
+}
+
+functions.deleteUser = function(db, query, callback){
+    const collection = db.collection('user');
+    // Delete user
+    collection.deleteOne(query, function(err, result) {
+        assert.equal(err, null);
+        assert.equal(1, result.result.n);
+        console.log("Removed the user with the query " + query);
+        callback(result);
+    });
+}
+
+exports.data = functions;
