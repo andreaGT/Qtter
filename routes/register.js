@@ -1,22 +1,6 @@
 var usr = require('../models/users');
 var utilities = require('../utilities/essential');
 
-// USUARIOS
-
-//se llama a la function createConnection en cada metodo, dicha funcion retorna db y client desde tuits.js
-// usr.data.createConnection(function(db, client){
-// 	usr.data.insertUser(db, documents, function(result){
-// 		console.log("Fin insercion documento");
-
-// 		//ops retorna los documentos insertados junto al id generado por mongodb
-// 		for(var i = 0; i <= result.ops.length-1; i++){
-// 			console.log("username: " + result.ops[i].username + ", id: " + result.ops[i]._id.toString());
-// 		}
-// 	});
-// 	client.close();
-// 	console.log("Conexion cerrada");
-// });
-
 /*usr.data.createConnection(function(db, client){
 	usr.data.getUsers(db, function(users){
 		//console.dir(users);

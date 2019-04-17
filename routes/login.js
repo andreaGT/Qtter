@@ -1,3 +1,5 @@
+var usr = require('../models/users');
+
 module.exports = function(app){
 	
 	app.get('/',function(req, res){
@@ -9,6 +11,23 @@ module.exports = function(app){
 	});
 
 	app.post('/',function(req,res){
-		res.render('home',{title: 'Qtter', user_id: 'Andrea'});
+		var usernametxt = req.body.username;
+		var passwordtxt = req.body.password;
+		var query = {'username': usernametxt, 'password': passwordtxt};
+
+		usr.data.createConnection(function(db, client){
+			usr.data.getUsersByQuery(db, query, function(users){
+				if(users.length > 0){
+					console.log("Usuario encontrado: " + users[0].username);
+					
+					client.close();
+					console.log("Conexion cerrada");
+					res.render('home',{title: 'Qtter', user_id: usernametxt});
+				}else{
+					req.flash('BAD', " Username or password incorrect, try again!",'/');
+				}
+			});
+			client.close();
+		});
 	})
 }

@@ -15,8 +15,6 @@ functions.createConnection = function(callback){
     const dbPass = nconf.get('mongoPw');
     const dbName = nconf.get('mongobdtw');
     const uri = "mongodb+srv://root:${dbPass}@${dbHost}/test?retryWrites=true";
-    //const uri = "mongodb+srv://root:Seguridad10@cluster0-7gpmj.gcp.mongodb.net/test?retryWrites=true";
-    //const dbName = 'twitter';
 
     const MongoClient = require('mongodb').MongoClient;
     const client = new MongoClient(uri, { useNewUrlParser: true });

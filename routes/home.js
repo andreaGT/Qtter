@@ -60,10 +60,6 @@ query = {'username': 'chapin'};
 	});
 });*/
 
-
-
-
-
 function getCategory(text){
 	var cat = text.split("#")[1].split(" ")[0];
 	return cat;
