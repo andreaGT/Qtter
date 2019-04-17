@@ -5,6 +5,7 @@ html
     link(rel='stylesheet', href='/stylesheets/styleL.css').
     title= title
   body
+    !{flash}
     .container-fluid
       .row.no-gutter
         .d-none.d-md-flex.col-md-4.col-lg-6.bg-image
@@ -16,8 +17,8 @@ html
                   h3.login-heading.mb-4 Welcome back to Qtter!
                   form(method='post')
                     .form-label-group
-                      input#inputEmail.form-control(type='email', placeholder='Email address', required='', autofocus='')
-                      label(for='inputEmail') Email address
+                      input#inputUserame.form-control(type='text', placeholder='Username', required='', autofocus='')
+                      label(for='inputUserame') Username
                     .form-label-group
                       input#inputPassword.form-control(type='password', placeholder='Password', required='')
                       label(for='inputPassword') Password
@@ -26,3 +27,4 @@ html
                       label.custom-control-label(for='customCheck1') Remember password
                     button.btn.btn-lg.btn-primary.btn-block.btn-login.text-uppercase.font-weight-bold.mb-2(type='submit') Sign in
                     .text-center
+                  a.d-block.text-center.mt-2.small(href='/register/') Register

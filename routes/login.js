@@ -4,6 +4,10 @@ module.exports = function(app){
 		res.render('login',{ title: 'Qtter'});
 	});
 
+	app.get('/register/',function(req, res){
+		res.render('register',{ title: 'Qtter'});
+	});
+
 	app.post('/',function(req,res){
 		res.render('home',{title: 'Qtter', user_id: 'Andrea'});
 	})

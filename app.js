@@ -2,7 +2,9 @@
 /**
  * Module dependencies.
  */
+var flash = require('express-flash-notification');
 var session = require('express-session');
+var cookieParser = require('cookie-parser');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 var errorHandler = require('errorhandler');
@@ -15,6 +17,7 @@ var tdb = require('./models/tuits.js')
 
 //variables routes
 var login = require('./routes/login');
+var register = require('./routes/register');
 var home = require('./routes/home');
 var profile = require('./routes/profile');
 var trend = require('./routes/trend');
@@ -25,13 +28,42 @@ const PORT = process.env.PORT || 8080;
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(methodOverride());
 app.use(express.static(__dirname + '/public'));
+
+app.use(cookieParser());
+app.use(session({ secret: 'keyboard cat', saveUninitialized: true, resave: true}));
+
+const flashNotificationOptions = {
+  beforeSingleRender: function(item, callback) {
+    if (item.type) {
+      switch(item.type) {
+        case 'GOOD':
+          item.type = 'Success';
+          item.alertClass = 'alert-success';
+          break;
+        case 'OK':
+          item.type = 'Info';
+          item.alertClass = 'alert-info';
+          break;
+        case 'BAD':
+          item.type = 'Error';
+          item.alertClass = 'alert-danger';
+          break;
+      }
+    }
+    callback(null, item);
+  }
+};
+app.use(flash(app, flashNotificationOptions));
+
 
 app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 
 //Define routes
 login(app);
+register(app);
 home(app);
 profile(app);
 trend(app);

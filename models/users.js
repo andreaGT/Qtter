@@ -39,9 +39,7 @@ functions.insertUser = function(db, documents, callback) {
     // Insert some documents
     collection.insertMany(documents, function(err, result) {
         assert.equal(err, null);
-        assert.equal(3, result.result.n);
-        assert.equal(3, result.ops.length);
-        console.log("Inserted 3 users into the collection users");
+        console.log("Inserted user into the collection users");
         callback(result);
     });
 }

@@ -1,0 +1,26 @@
+html
+  head
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css').
+    link(rel='stylesheet', href='/stylesheets/styleL.css').
+    title= title
+    body
+        !{flash}
+        .container
+            .row
+                .col-lg-10.col-xl-9.mx-auto
+                    .card.card-signin.flex-row.my-5
+                        .card-img-left.d-none.d-md-flex
+                        .card-body
+                            h5.card-title.text-center Register
+                            form.form-signin(action='/register/' method='post')
+                                .form-label-group
+                                    input#inputUsername.form-control(name= 'username', type='text', placeholder='Username', required='', autofocus='')
+                                    label(for='inputUsername') Username
+                                .form-label-group
+                                    input#inputName.form-control(name= 'name', type='text', placeholder='Name', required='', autofocus='')
+                                    label(for='inputName') Name
+                                .form-label-group
+                                    input#inputPassword.form-control(name= 'password', type='password', placeholder='Password', required='')
+                                    label(for='inputPassword') Password
+                                button.btn.btn-lg.btn-primary.btn-block.text-uppercase(type='submit') Register
+                            a.d-block.text-center.mt-2.small(href='/') Sign In

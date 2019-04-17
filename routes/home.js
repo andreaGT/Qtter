@@ -10,56 +10,6 @@
 var tdb = require('../models/tuits');
 var usr = require('../models/users');
 
-// USUARIOS
-
-//usuarios a insertar...
-var documents = [{username : 'master2', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'uno1'},
-	{username : 'chapin', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'dos2'},
-	{username : 'jorge1', password: '9b547809b2e2c7565252ca58c11ce74229316366', 'fecha_creacion': '14/04/19', nombres: 'tres3'}];
-
-//se llama a la function createConnection en cada metodo, dicha funcion retorna db y client desde tuits.js
-/*usr.data.createConnection(function(db, client){
-	usr.data.insertUser(db, documents, function(result){
-		console.log("Fin insercion documento");
-
-		//ops retorna los documentos insertados junto al id generado por mongodb
-		for(var i = 0; i <= result.ops.length-1; i++){
-			console.log("username: " + result.ops[i].username + ", id: " + result.ops[i]._id.toString());
-		}
-	});
-	client.close();
-	console.log("Conexion cerrada");
-});*/
-
-/*usr.data.createConnection(function(db, client){
-	usr.data.getUsers(db, function(users){
-		//console.dir(users);
-
-		for(var i = 0; i<=users.length-1; i++){
-			console.log(users[i].username);
-		}
-	});
-	client.close();
-	console.log("Conexión cerrada");
-});*/
-
-var query = {'username': 'andrea'};
-
-/*usr.data.createConnection(function(db, client){
-	usr.data.getUsersByQuery(db, query, function(users){
-		for(var i = 0; i<=users.length-1; i++){
-			console.log("Usuario encontrado: " + users[i].username);
-		}
-	});
-	client.close();
-});*/
-
-query = {'username': 'master2'};
-/*usr.data.createConnection(function(db, client){
-	usr.data.deleteUser(db, query, function(result){
-		console.log("Deleted users, cantidad: " + result.result.n);
-	});
-});*/
 
 
 // TWEETS
