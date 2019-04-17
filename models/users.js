@@ -10,27 +10,26 @@ nconf
 
 //var dHost = nconf.get('mongoHost');
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://root:Seguridad10@cluster0-7gpmj.gcp.mongodb.net/test?retryWrites=true";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-const dbName = 'twitter';
-
 var functions = {};
 
 functions.createConnection = function(callback){
-    client.connect(err => {
-        //const collection = client.db("twitter").collection("user");
-        //console.dir(collection);
-        // perform actions on the collection object
+        const MongoClient = require('mongodb').MongoClient;
+        const uri = "mongodb+srv://root:Seguridad10@cluster0-7gpmj.gcp.mongodb.net/test?retryWrites=true";
+        const client = new MongoClient(uri, { useNewUrlParser: true });
+        const dbName = 'twitter';
+        client.connect(err => {
+            //const collection = client.db("twitter").collection("user");
+            //console.dir(collection);
+            // perform actions on the collection object
 
-        const db = client.db(dbName);
+            const db = client.db(dbName);
 
-        /*insertDocuments(db, function() {
-            client.close();
-        });*/
-        console.log("Conexion creada");
-        callback(db, client);
-    });
+            /*insertDocuments(db, function() {
+                client.close();
+            });*/
+            console.log("Conexion creada");
+            callback(db, client);
+        });
 }
 
 functions.insertUser = function(db, documents, callback) {
@@ -74,6 +73,10 @@ functions.deleteUser = function(db, query, callback){
         console.log("Removed the user with the query " + query);
         callback(result);
     });
+}
+
+functions.closeConnection = function(){
+    client.close();
 }
 
 exports.data = functions;

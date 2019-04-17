@@ -81,7 +81,7 @@ module.exports = function(app){
                                 console.log("username: " + result.ops[i].username + ", id: " + result.ops[i]._id.toString());
                             }
                             client.close();
-                            console.log("Conexion cerrada");
+                            console.log("Conexion cerrada al insertar usuario");
                         });
                         req.flash('GOOD', " Yaas! your registration was a success! now you can Sing in :D", '/');
                     }
