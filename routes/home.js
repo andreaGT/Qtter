@@ -1,34 +1,9 @@
-
-/*
- * GET home page.
- */
-
-/*exports.index = function(req, res){
-  res.render('index', { title: 'Express' })
-};*/
-
 var tdb = require('../models/tuits');
-var usr = require('../models/users');
-
+var rdb = require('../models/feed.js');
+var utilities = require('../utilities/essential.js');
 
 
 // TWEETS
-var tweets = [{username : 'master2', tweet: 'Bases de datos avanzadas rules', 'fecha_creacion': '14/04/19'},
-	{username : 'chapin', tweet: 'Clima GT', 'fecha_creacion': '14/04/19'},
-	{username : 'jorge1', tweet: '#Increible', 'fecha_creacion': '14/04/19'}];
-
-/*tdb.data.createConnection(function(db, client){
-	tdb.data.insertTweet(db, tweets, function(result){
-		console.log("Fin insercion tweet");
-
-		//ops retorna los documentos insertados junto al id generado por mongodb
-		for(var i = 0; i <= result.ops.length-1; i++){
-			console.log("tweet: " + result.ops[i].tweet + ", id: " + result.ops[i]._id.toString());
-		}
-	});
-	client.close();
-	console.log("Conexion cerrada");
-});*/
 
 /*tdb.data.createConnection(function(db, client){
 	tdb.data.getTweets(db, function(tweets){
@@ -103,23 +78,41 @@ module.exports = function(app){
 		}catch(err){}
 	});
 	
-	app.post('/home',function(req, res){
-		tdb.new({name: req.param('name'), email: req.param('email')}, function(e){
-			tdb.list(function(e, usrs){
-				res.render('home',{ title: 'Lista de usuarios', users: usrs });
-			})
-		})	
+	
+
+	app.post('/qweet/',function(req, res){
+		var sess = req.session;
+		var user_id = sess.user_id;
+		var qweetxt = req.body.qweetxt;
+		var date = utilities.data.getCurrentDate();
+		var id_ = "";
+
+		try {
+			tdb.data.createConnection(function(db, client){
+				var qweet = [{username : user_id, tweet: qweetxt, 'fecha_creacion': date}];
+				tdb.data.insertTweet(db, qweet, function(result){
+					console.log("Fin insercion tweet");
+					//ops retorna los documentos insertados junto al id generado por mongodb
+					id_ = result.ops[0]._id.toString();
+					
+					client.close();
+					console.log("Conexion cerrada");
+
+					rdb.data.createConnection(function(client){
+						rdb.data.insertTweet(client, id_, user_id, qweet, function(result){
+							console.log(result);
+						});
+					});
+
+					req.flash('GOOD', " Qweet posted! :D",'/home');
+				});
+			});
+
+		} catch (error) {
+			req.flash('BAD', " Server error! :(",'/home');
+		}
+		//res.render('home',{ title: 'Lista de usuarios', users: usrs });
+			
 	});
 
-	app.get('/profile/', function(req, res){
-		try{
-			res.render('profile', {title: 'Qtter '});
-		}catch(err){}
-	});
-
-	app.get('/trend/', function(req, res){
-		try{
-			res.render('trend', {title: 'Qtter '});
-		}catch(err){}
-	});
 }

@@ -61,4 +61,4 @@ typings/
 .next
 
 #keys
-keys.json
+utilities/keys.json

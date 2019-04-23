@@ -16,22 +16,5 @@ function getCategory(text){
 
 module.exports = function(app){
 	
-	app.get('/',function(req, res){
-		try{
-			
-		}catch(err){}
-		res.render('home',{ title: 'Qtter' });
-	});
-
-	app.get('/profile/', function(req, res){
-		try{
-			res.render('profile', {title: 'Qtter '});
-		}catch(err){}
-	});
-
-	app.get('/trend/', function(req, res){
-		try{
-			res.render('trend', {title: 'Qtter '});
-		}catch(err){}
-	});
+	
 }

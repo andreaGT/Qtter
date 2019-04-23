@@ -2,21 +2,16 @@ const http = require('http');
 const nconf = require('nconf');
 const assert = require('assert');
 
-// a keys.json file, or in environment variables
-nconf
-  .argv()
-  .env()
-  .file('../keys.json');
-
 var functions = {};
 
 functions.createConnection = function(callback){
+    const dbUsr = nconf.get('mongodbusr');
     const dbHost = nconf.get('mongoHost');
     const dbPass = nconf.get('mongoPw');
-    const dbName = nconf.get('mongobdtw');
-    const uri = "mongodb+srv://root:${dbPass}@${dbHost}/test?retryWrites=true";
+    const dbName = nconf.get('mongodbtw');
 
     const MongoClient = require('mongodb').MongoClient;
+    const uri = `mongodb+srv://${dbUsr}:${dbPass}@${dbHost}/test?retryWrites=true`;
     const client = new MongoClient(uri, { useNewUrlParser: true });
 
     client.connect(err => {

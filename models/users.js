@@ -1,35 +1,24 @@
 const http = require('http');
-const nconf = require('nconf');
 const assert = require('assert');
-
-// a keys.json file, or in environment variables
-nconf
-    .argv()
-    .env()
-    .file('../keys.json');
-
-//var dHost = nconf.get('mongoHost');
+const nconf = require('nconf');
 
 var functions = {};
 
 functions.createConnection = function(callback){
-        const MongoClient = require('mongodb').MongoClient;
-        const uri = "mongodb+srv://root:Seguridad10@cluster0-7gpmj.gcp.mongodb.net/test?retryWrites=true";
-        const client = new MongoClient(uri, { useNewUrlParser: true });
-        const dbName = 'twitter';
-        client.connect(err => {
-            //const collection = client.db("twitter").collection("user");
-            //console.dir(collection);
-            // perform actions on the collection object
+    const dbUsr = nconf.get('mongodbusr');
+    const dbHost = nconf.get('mongoHost');
+    const dbPass = nconf.get('mongoPw');
+    const dbName = nconf.get('mongodbtw');
 
-            const db = client.db(dbName);
-
-            /*insertDocuments(db, function() {
-                client.close();
-            });*/
-            console.log("Conexion creada");
-            callback(db, client);
-        });
+    const MongoClient = require('mongodb').MongoClient;
+    const uri = `mongodb+srv://${dbUsr}:${dbPass}@${dbHost}/test?retryWrites=true`;
+    const client = new MongoClient(uri, { useNewUrlParser: true });
+    
+    client.connect(err => {
+        const db = client.db(dbName);
+        console.log("Conexion creada");
+        callback(db, client);
+    });
 }
 
 functions.insertUser = function(db, documents, callback) {

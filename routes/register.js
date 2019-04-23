@@ -13,17 +13,6 @@ var utilities = require('../utilities/essential');
 	console.log("Conexión cerrada");
 });*/
 
-var query = {'username': 'andrea'};
-
-/*usr.data.createConnection(function(db, client){
-	usr.data.getUsersByQuery(db, query, function(users){
-		for(var i = 0; i<=users.length-1; i++){
-			console.log("Usuario encontrado: " + users[i].username);
-		}
-	});
-	client.close();
-});*/
-
 query = {'username': 'master2'};
 /*usr.data.createConnection(function(db, client){
 	usr.data.deleteUser(db, query, function(result){
@@ -33,8 +22,8 @@ query = {'username': 'master2'};
 
 module.exports = function(app){
 	
-	app.get('/',function(req, res){
-		res.render('login',{ title: 'Qtter'});
+	app.get('/register/',function(req, res){
+		res.render('register',{ title: 'Qtter'});
 	});
 
 	app.post('/register/',function(req,res){

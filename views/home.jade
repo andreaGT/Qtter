@@ -28,9 +28,9 @@ block content
 				.card.my-4
 					h5.card-header Write your thoughts:
 					.card-body
-						form
+						form(action="/qweet/" method='post')
 							.form-group
-								textarea.form-control(rows='3')
+								textarea.form-control(name = 'qweetxt',rows='3')
 							button.btn.btn-primary(type='submit') Qweet
 
 			// Post Content Column

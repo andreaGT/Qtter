@@ -10,6 +10,8 @@ var bodyParser = require('body-parser');
 var errorHandler = require('errorhandler');
 var express = require('express');
 
+var nconf = require('nconf');
+
 var app = express()
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -18,6 +20,7 @@ var tdb = require('./models/tuits.js')
 //variables routes
 var login = require('./routes/login');
 var register = require('./routes/register');
+var layout = require('./routes/layout');
 var home = require('./routes/home');
 var profile = require('./routes/profile');
 var trend = require('./routes/trend');
@@ -35,6 +38,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 app.use(session({ secret: 'keyboard cat', saveUninitialized: true, resave: true}));
 
+//custom configuration for flash notifications
 const flashNotificationOptions = {
   beforeSingleRender: function(item, callback) {
     if (item.type) {
@@ -58,16 +62,20 @@ const flashNotificationOptions = {
 };
 app.use(flash(app, flashNotificationOptions));
 
-
 app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 
 //Define routes
 login(app);
 register(app);
+layout(app);
 home(app);
 profile(app);
 trend(app);
 
+//load configurations, a keys.json file, or in environment variables
+nconf.argv()
+    .env()
+    .file('./utilities/keys.json');
 
 // io.on('connection', function(socket){
 //   socket.on('get_tuits', function(msg){
