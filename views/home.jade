@@ -6,7 +6,7 @@ block content
 			.col-md-4
 				// User description
 				.card.my-4
-					h5.card-header= user_id
+					h5.card-header(name= 'user_id_content')= user_id
 					.card-body
 						table(style='width:100% ')
 							tbody
@@ -14,7 +14,8 @@ block content
 									th Qweets
 									th Qtags
 								tr
-									td 256
+									td 
+										#no_qweets
 									td 40
 				// Search Widget
 				.card.my-4

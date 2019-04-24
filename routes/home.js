@@ -94,25 +94,21 @@ module.exports = function(app){
 					console.log("Fin insercion tweet");
 					//ops retorna los documentos insertados junto al id generado por mongodb
 					id_ = result.ops[0]._id.toString();
-					
 					client.close();
 					console.log("Conexion cerrada");
 
-					rdb.data.createConnection(function(client){
-						rdb.data.insertTweet(client, id_, user_id, qweet, function(result){
-							console.log(result);
-						});
+					rdb.data.insertTweet(id_, user_id, qweetxt, function(result){
+						console.log(result+": tweet inserted");
 					});
 
 					req.flash('GOOD', " Qweet posted! :D",'/home');
+
 				});
 			});
 
 		} catch (error) {
 			req.flash('BAD', " Server error! :(",'/home');
-		}
-		//res.render('home',{ title: 'Lista de usuarios', users: usrs });
-			
+		}	
 	});
 
 }

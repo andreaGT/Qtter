@@ -13,9 +13,11 @@ var express = require('express');
 var nconf = require('nconf');
 
 var app = express()
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var tdb = require('./models/tuits.js')
+
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+var tdb = require('./models/tuits.js');
+var rdb = require('./models/feed.js');
 
 //variables routes
 var login = require('./routes/login');
@@ -77,35 +79,44 @@ nconf.argv()
     .env()
     .file('./utilities/keys.json');
 
-// io.on('connection', function(socket){
-//   socket.on('get_tuits', function(msg){
-// 	  tdb.list(function(e, tuits){
-// 		  io.emit('get_tuits', tuits);
-// 	  });
-//   });
-//   socket.on('get_user_tuits', function(msg){
-// 	  tdb.userTuitList(msg,function(e, tuits){
-// 		  io.emit('get_user_tuits', tuits);
-// 	  });
-//   });
-//   socket.on('count_users', function(msg){
-// 	  tdb.userList(function(e,res){
-// 		  io.emit('count_users', res);
-// 	  });
-//   });
-//   socket.on('count_cats', function(msg){
-// 	  tdb.catList(function(e,res){
-// 		  io.emit('count_cats', res);
-// 	  });
-//   });
-//   socket.on('count_tuits', function(msg){
-// 	  tdb.countTuits(function(e,res){
-// 		  io.emit('count_tuits', res);
-// 	  });
-//   });
-// });
+
+io.on('connection', function(socket){
+  console.log('socket io client is connected');
+  socket.on('count_tuits', function(msg){
+	  rdb.data.countTweets('*'+msg+'*',function(res){
+		  io.emit('count_tuits', res);
+	  });
+  });
+  socket.on('get_tuits', function(msg){
+    tdb.data.createConnection(function(db, client){
+      tdb.data.getTweets(db, function(tweets){
+        // for(var i = 0; i<=tweets.length-1; i++){
+        //   console.log("Tweet encontrado: " + tweets[i].tweet);
+        // }
+        io.emit('get_tuits', tweets);
+        client.close();
+      });
+    });
+  });
+  // socket.on('get_user_tuits', function(msg){
+	//   tdb.userTuitList(msg,function(e, tuits){
+	// 	  io.emit('get_user_tuits', tuits);
+	//   });
+  // });
+  // socket.on('count_users', function(msg){
+	//   tdb.userList(function(e,res){
+	// 	  io.emit('count_users', res);
+	//   });
+  // });
+  // socket.on('count_cats', function(msg){
+	//   tdb.catList(function(e,res){
+	// 	  io.emit('count_cats', res);
+	//   });
+  // });
+
+});
 
 // Start the server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });

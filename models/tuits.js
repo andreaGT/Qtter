@@ -1,4 +1,3 @@
-const http = require('http');
 const nconf = require('nconf');
 const assert = require('assert');
 
