@@ -106,6 +106,15 @@ module.exports = function(app){
 				});
 			});
 
+			tdb.data.createConnection(function(db, client){
+				var qweet = [{username : user_id, tweet: qweetxt, 'fecha_creacion': date}];
+				tdb.data.gestionarTrend(db, qweet, function(){
+					console.log("Fin insercion trend");
+					client.close();
+					console.log("Conexion cerrada");
+				});
+			});
+
 		} catch (error) {
 			req.flash('BAD', " Server error! :(",'/home');
 		}	
