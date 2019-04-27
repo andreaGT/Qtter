@@ -61,4 +61,63 @@ functions.deleteTweet = function(db, query, callback){
     });
 }
 
+functions.verificadorTendencia = function(db, documents, hashtag, callback){
+    const collection = db.collection('trends');
+    query = {'hashtag':''+hashtag+''};
+    console.log("QUERY: " + query);
+    collection.find(query).toArray(function(err, trend) {
+        assert.equal(err, null);
+        console.log("Found the following hashtags");
+        console.log(trend);
+        console.log("cantidad: " + trend.length);
+
+        callback(trend, hashtag);
+    });
+}
+
+functions.gestionarTrend = function(db, documents, callback){
+    for(var i=0; i<=documents.length-1; i++){
+        console.log("Tweet: " + documents[i].tweet);
+        var hashtags = documents[i].tweet.split(' ').filter(v=> v.startsWith('#'));
+
+        for(var j=0; j<=hashtags.length-1; j++){
+            console.log("trend no."+j+": "+hashtags[j]);
+            this.verificadorTendencia(db, documents, hashtags[j], function(trend, hashtag){
+                if(trend.length==0){ //insertar nuevo registro en trends
+                    console.log("Se crea nuevo trend");
+                    var fecha= new Date();
+                    var fecha2 = Date.parse(fecha);
+
+                    trend_nuevo = [{
+                        'hashtag':''+hashtag+'',
+                        'ocurrencias': 1,
+                        'fecha_creacion': fecha2,
+                        'usuario_creador': documents[0].username
+                    }];
+
+                    const collection = db.collection('trends');
+                    collection.insertMany(trend_nuevo, function(err, result) {
+                        assert.equal(err, null);
+                        console.log("Inserted "+ result.result.n +" trends into the trends collection");
+                        //callback(result);
+                    });
+
+                }else{ //hacer update al id recuperado
+                    const collection = db.collection('trends');
+                    console.log("Se debe actualizar el trend con id: " + trend[0]._id.toString());
+                    var myQuery = {'hashtag':''+hashtag+''};
+                    var ocurrencia = parseInt(trend[0].ocurrencias) + 1;
+                    console.log("OCURRENCIAS: " + ocurrencia);
+                    var newValues = { $set: {'ocurrencias':ocurrencia}};
+
+                    collection.updateOne(myQuery, newValues, function(err, res){
+                        if (err) throw err;
+                        console.log("1 trend updated");
+                    })
+                }
+            });
+        }
+    }
+}
+
 exports.data = functions;
