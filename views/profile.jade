@@ -1,12 +1,13 @@
 extend layout
 block content
+	script(type='text/javascript', src= '/javascripts/tuits_load_profile.js').
 	.container
 		.row
 			// Sidebar Widgets Column
 			.col-md-4
 				// User description
 				.card.my-4
-					h5.card-header= user_id
+					h5.card-header(name= 'user_id_content')= user_id
 					.card-body
 						table(style='width:100% ')
 							tbody
@@ -14,7 +15,8 @@ block content
 									th Qweets
 									th Qtags
 								tr
-									td 256
+									td 
+										#no_qweets
 									td 40
 				// Search Widget
 				.card.my-4
@@ -27,7 +29,7 @@ block content
 
 			// Post Content Column
 			.col-lg-8
-				//- #result
+				#result
 				//- 	each item in tuits
 				//- 		div#tuit
 				//- 			b #{item.name}.
@@ -36,5 +38,3 @@ block content
 				//- 			hr
 				//- 			br
 				//- 			pre #{item.txt}
-		
-	

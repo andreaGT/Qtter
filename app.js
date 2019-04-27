@@ -90,10 +90,16 @@ io.on('connection', function(socket){
   socket.on('get_tuits', function(msg){
     tdb.data.createConnection(function(db, client){
       tdb.data.getTweets(db, function(tweets){
-        // for(var i = 0; i<=tweets.length-1; i++){
-        //   console.log("Tweet encontrado: " + tweets[i].tweet);
-        // }
         io.emit('get_tuits', tweets);
+        client.close();
+      });
+    });
+  });
+  socket.on('get_tuitsByUser', function(msg){
+    tdb.data.createConnection(function(db, client){
+      var query = {'username': msg};
+      tdb.data.getTweetsByQuery(db, query, function(tweets){
+        io.emit('get_tuitsByUser', tweets);
         client.close();
       });
     });

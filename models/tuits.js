@@ -37,7 +37,6 @@ functions.getTweets = function(db, callback){
     // Find some documents
     collection.find({}).toArray(function(err, tweets) {
         assert.equal(err, null);
-        console.log("Found the following tweets");
         callback(tweets);
     });
 }
@@ -47,8 +46,6 @@ functions.getTweetsByQuery = function(db, query, callback){
     // Find some tweets
     collection.find(query).toArray(function(err, tweets) {
         assert.equal(err, null);
-        console.log("Found the following tweets");
-        console.log(tweets);
         callback(tweets);
     });
 }
