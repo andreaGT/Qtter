@@ -123,4 +123,15 @@ functions.gestionarTrend = function(db, documents, callback){
     }
 }
 
+functions.getTrends = function(db, callback){
+    const collection = db.collection('trends');
+
+    collection.find({}).sort( { ocurrencias: -1 } ).limit(5).toArray(function(err, trends) {
+        assert.equal(err, null);
+        console.log("Found the following trends order by desc and top 5:");
+        console.dir(trends);
+        callback(trends);
+    });
+}
+
 exports.data = functions;
