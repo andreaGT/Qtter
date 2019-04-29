@@ -115,6 +115,14 @@ module.exports = function(app){
 				});
 			});
 
+			tdb.data.createConnection(function(db, client){
+				tdb.data.getTrends(db, function(){
+
+					client.close();
+					console.log("Conexión cerrada");
+				});
+			});
+
 		} catch (error) {
 			req.flash('BAD', " Server error! :(",'/home');
 		}	
