@@ -8,10 +8,10 @@ var icon_str = '<img src="/images/tuit.png" width="24" height="24" style="float:
 setTimeout(
 	function(){
 		if(username[0] != null){
-			socket.emit('get_tuits','/');
 			socket.emit('count_tuits', username[0].innerHTML);
+			socket.emit('get_tuits','/');
 		}
-}, 3000);
+}, 4000);
 
 var interval = setInterval(function(){
 	socket.emit('get_tuits','/');

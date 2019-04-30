@@ -8,7 +8,7 @@ socket.emit('get_trends','/');
 setTimeout(
     function(){
         socket.emit('get_trends','/');
-}, 3000);
+}, 4000);
 
 var interval = setInterval(function(){
 	socket.emit('get_trends','/');

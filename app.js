@@ -50,6 +50,7 @@ app.use(cookieParser());
 app.use(session({ secret: 'keyboard cat', 
                   saveUninitialized: true, 
                   resave: true, 
+                  cookie:{maxAge:300000},
                   store: new MemcachedStore({servers: [MEMCACHE_URL]})
                 }));
 
