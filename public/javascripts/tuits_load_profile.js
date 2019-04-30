@@ -10,7 +10,7 @@ function(){
 		socket.emit('get_tuitsByUser', username[0].innerHTML);
 		socket.emit('count_tuits', username[0].innerHTML);
 	}
-}, 200);
+}, 1000);
 
 var interval = setInterval(function(){
 	if(username != null){

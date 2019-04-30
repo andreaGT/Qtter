@@ -1,17 +1,17 @@
-var socket = io();
+var socket = io('https://qtter-app.appspot.com:8080');
 var username = document.getElementsByName("user_id_content");
 var count = 0;
 var icon_str = '<img src="/images/tuit.png" width="24" height="24" style="float: right;"/>'
-socket.emit('get_tuits','/');
 // socket.emit('count_users','/');
 // socket.emit('count_cats','/');
 
 setTimeout(
 	function(){
 		if(username[0] != null){
+			socket.emit('get_tuits','/');
 			socket.emit('count_tuits', username[0].innerHTML);
 		}
-}, 200);
+}, 1000);
 
 var interval = setInterval(function(){
 	socket.emit('get_tuits','/');

@@ -9,13 +9,14 @@ var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 var errorHandler = require('errorhandler');
 var express = require('express');
+var http = require('http');
 
 var nconf = require('nconf');
 
 var app = express()
 
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 var tdb = require('./models/tuits.js');
 var rdb = require('./models/feed.js');
 
