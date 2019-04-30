@@ -5,6 +5,7 @@
 var flash = require('express-flash-notification');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
+var MemcachedStore = require('connect-memjs')(session);
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 var errorHandler = require('errorhandler');
@@ -13,8 +14,14 @@ var http = require('http');
 
 var nconf = require('nconf');
 
-var app = express()
+// Environment variables are defined in app.yaml.
+let MEMCACHE_URL = process.env.MEMCACHE_URL || '127.0.0.1:11211';
 
+if (process.env.USE_GAE_MEMCACHE) {
+  MEMCACHE_URL = `${process.env.GAE_MEMCACHE_HOST}:${process.env.GAE_MEMCACHE_PORT}`;
+}
+
+var app = express()
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 var tdb = require('./models/tuits.js');
@@ -40,7 +47,11 @@ app.use(methodOverride());
 app.use(express.static(__dirname + '/public'));
 
 app.use(cookieParser());
-app.use(session({ secret: 'keyboard cat', saveUninitialized: true, resave: true}));
+app.use(session({ secret: 'keyboard cat', 
+                  saveUninitialized: true, 
+                  resave: true, 
+                  store: new MemcachedStore({servers: [MEMCACHE_URL]})
+                }));
 
 //custom configuration for flash notifications
 const flashNotificationOptions = {

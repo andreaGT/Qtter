@@ -23,6 +23,7 @@
     "method-override": "*",
     "nconf": "^0.10.0",
     "express-flash-notification": "0.5.0",
-    "cookie-parser": "1.4.4"
+    "cookie-parser": "1.4.4",
+    "connect-memjs": "^0.2.1"
   }
 }
