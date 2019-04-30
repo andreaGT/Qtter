@@ -1,15 +1,19 @@
 extend layout
 block content
-	script(type='text/javascript', src= '/javascripts/tuits_load_trends.js').
 	.container
 		.row
 			// Sidebar Widgets Column
 			.col-md-4
-				// Trending Widget
+				// Search Widget
 				.card.my-4
-					h5.card-header Trending Qtags
+					h5.card-header Search
 					.card-body
-						#trends
+						form(action="/search" method='post')
+							.input-group
+								input.form-control(name = 'wordtxt', type='text', placeholder='Search qweet...')
+								span.input-group-btn
+									button.btn.btn-secondary(type='submit') Go!
+            
 			// Post Content Column
 			.col-lg-8
 				#result
@@ -21,5 +25,3 @@ block content
 							hr
 							br
 							pre #{item.tweet}
-		
-	

@@ -5,29 +5,6 @@ var utilities = require('../utilities/essential.js');
 
 // TWEETS
 
-/*tdb.data.createConnection(function(db, client){
-	tdb.data.getTweets(db, function(tweets){
-		//console.dir(tweets);
-
-		for(var i = 0; i<=tweets.length-1; i++){
-			console.log(tweets[i].tweet);
-		}
-	});
-	client.close();
-	console.log("Conexión cerrada");
-});*/
-
-var query = {'username': 'andrea'};
-
-/*tdb.data.createConnection(function(db, client){
-	tdb.data.getTweetsByQuery(db, query, function(tweets){
-		for(var i = 0; i<=tweets.length-1; i++){
-			console.log("Tweet encontrado: " + tweets[i].tweet);
-		}
-	});
-	client.close();
-});*/
-
 query = {'username': 'chapin'};
 /*tdb.data.createConnection(function(db, client){
 	tdb.data.deleteTweet(db, query, function(result){
@@ -67,18 +44,6 @@ module.exports = function(app){
 			});
 		}catch(err){}
 	});
-	
-	app.get('/category/', function(req, res){
-		try{
-			console.log(req.query.id);
-			tdb.catTuitList(req.query.id, function(e, usrs){
-				console.log(usrs);
-				res.render('category', {title: 'Tuits categoría ' + req.query.id,title2:'Cantidad de tuits: ' + usrs.length,tuits: usrs});
-			});
-		}catch(err){}
-	});
-	
-	
 
 	app.post('/qweet/',function(req, res){
 		var sess = req.session;

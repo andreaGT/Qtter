@@ -9,12 +9,6 @@
 
 var tdb = require('../models/tuits')
 
-function getCategory(text){
-	var cat = text.split("#")[1].split(" ")[0];
-	return cat;
-}
-
 module.exports = function(app){
-	
 	
 }

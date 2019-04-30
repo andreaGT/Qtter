@@ -26,6 +26,7 @@ var layout = require('./routes/layout');
 var home = require('./routes/home');
 var profile = require('./routes/profile');
 var trend = require('./routes/trend');
+var searchq = require('./routes/search');
 
 // Configuration
 const PORT = process.env.PORT || 8080;
@@ -73,6 +74,7 @@ layout(app);
 home(app);
 profile(app);
 trend(app);
+searchq(app);
 
 //load configurations, a keys.json file, or in environment variables
 nconf.argv()
@@ -104,16 +106,14 @@ io.on('connection', function(socket){
       });
     });
   });
-  // socket.on('get_user_tuits', function(msg){
-	//   tdb.userTuitList(msg,function(e, tuits){
-	// 	  io.emit('get_user_tuits', tuits);
-	//   });
-  // });
-  // socket.on('count_users', function(msg){
-	//   tdb.userList(function(e,res){
-	// 	  io.emit('count_users', res);
-	//   });
-  // });
+  socket.on('get_trends', function(msg){
+    tdb.data.createConnection(function(db, client){
+      tdb.data.getTrends(db, function(trends){
+        io.emit('get_trends', trends);
+        client.close();
+      });
+    });
+  });
   // socket.on('count_cats', function(msg){
 	//   tdb.catList(function(e,res){
 	// 	  io.emit('count_cats', res);

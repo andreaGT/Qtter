@@ -3,10 +3,15 @@ var username = document.getElementsByName("user_id_content");
 var count = 0;
 var icon_str = '<img src="/images/tuit.png" width="24" height="24" style="float: right;"/>'
 socket.emit('get_tuits','/');
-//socket.emit('count_tuits','/');
 // socket.emit('count_users','/');
 // socket.emit('count_cats','/');
 
+setTimeout(
+	function(){
+		if(username[0] != null){
+			socket.emit('count_tuits', username[0].innerHTML);
+		}
+}, 200);
 
 var interval = setInterval(function(){
 	socket.emit('get_tuits','/');
@@ -15,15 +20,15 @@ var interval = setInterval(function(){
 		socket.emit('count_tuits', username[0].innerHTML);
 	}
 	count++;
-},2000);
+},60000);
 
 socket.on('get_tuits', function(tweets){
 	var content = "";
 	//console.log(msg.length);
-	for(var i=tweets.length-1;i>=0;i--){
-		//var res = tweets[i].txt.replace('#'+tweets[i].category,'<a href="/trend/?id='+tweets[i].category+'">#'+ tweets[i].category + '</a>');
+	for(var i=0;i<tweets.length;i++){
+		//var res = tweets[i].txt.replace('#'++,'<a href="/trend/?id='+tweets[i].category+'">#'+ tweets[i].category + '</a>');
 		content += '<div id="tuit">'+icon_str+' <b>' 
-		+ tweets[i].username + '. </b><a href="/user/?id='+tweets[i].username+'">@' 
+		+ tweets[i].username + '. </b><a href="/user?id='+tweets[i].username+'">@' 
 		+ tweets[i].username + '</a> '+ new Date(tweets[i].fecha_creacion)+'<hr/><br/><pre>' 
 		+ tweets[i].tweet + '</pre></div>'
 	}

@@ -35,7 +35,7 @@ functions.insertTweet = function(db, documents, callback) {
 functions.getTweets = function(db, callback){
     const collection = db.collection('bitacora_tweets');
     // Find some documents
-    collection.find({}).toArray(function(err, tweets) {
+    collection.find({}).sort({fecha_creacion: -1}).limit(20).toArray(function(err, tweets) {
         assert.equal(err, null);
         callback(tweets);
     });
@@ -44,7 +44,7 @@ functions.getTweets = function(db, callback){
 functions.getTweetsByQuery = function(db, query, callback){
     const collection = db.collection('bitacora_tweets');
     // Find some tweets
-    collection.find(query).toArray(function(err, tweets) {
+    collection.find(query).sort({fecha_creacion: -1}).limit(20).toArray(function(err, tweets) {
         assert.equal(err, null);
         callback(tweets);
     });
@@ -123,10 +123,10 @@ functions.gestionarTrend = function(db, documents, callback){
 functions.getTrends = function(db, callback){
     const collection = db.collection('trends');
 
-    collection.find({}).sort( { ocurrencias: -1 } ).limit(5).toArray(function(err, trends) {
+    collection.find({}).sort( { ocurrencias: -1 } ).limit(6).toArray(function(err, trends) {
         assert.equal(err, null);
-        console.log("Found the following trends order by desc and top 5:");
-        console.dir(trends);
+        // console.log("Found the following trends order by desc and top 5:");
+        // console.dir(trends);
         callback(trends);
     });
 }
