@@ -5,6 +5,10 @@ socket.emit('get_trends','/');
 // socket.emit('count_users','/');
 // socket.emit('count_cats','/');
 
+setTimeout(
+    function(){
+        socket.emit('get_trends','/');
+}, 3000);
 
 var interval = setInterval(function(){
 	socket.emit('get_trends','/');
