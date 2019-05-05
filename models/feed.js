@@ -4,7 +4,7 @@ const nconf = require('nconf');
 var functions = {};
 
 createConnection = function(callback){
-  //const redisHost = nconf.get('redisHost') || 'localhost';
+  // const redisHost = 'localhost';
   const redisHost = nconf.get('redisHost');
   const redisPort = nconf.get('redisPort');
 

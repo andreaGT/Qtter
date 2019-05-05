@@ -3,14 +3,14 @@ var username = document.getElementsByName("user_id_content");
 var count = 0;
 var icon_str = '<img src="/images/tuit.png" width="24" height="24" style="float: right;"/>'
 
-setTimeout(
-function(){
-	if(username[0] != null){
-		console.log(username);
-		socket.emit('get_tuitsByUser', username[0].innerHTML);
-		socket.emit('count_tuits', username[0].innerHTML);
-	}
-}, 4000);
+// setTimeout(
+// function(){
+// 	if(username[0] != null){
+// 		console.log(username);
+// 		socket.emit('get_tuitsByUser', username[0].innerHTML);
+// 		socket.emit('count_tuits', username[0].innerHTML);
+// 	}
+// }, 4000);
 
 var interval = setInterval(function(){
 	if(username != null){
@@ -18,7 +18,7 @@ var interval = setInterval(function(){
 		socket.emit('count_tuits', username[0].innerHTML);
 	}
 	count++;
-},60000);
+},40000);
 
 socket.on('get_tuitsByUser', function(tweets){
 	var content = "";

@@ -13,3 +13,13 @@
 
 runtime: nodejs
 env: flex
+
+env_variables:
+  # If you are using the App Engine Memcache service (currently in alpha),
+  # uncomment this section and comment out the other Memcache variables.
+  # USE_GAE_MEMCACHE: 1
+  MEMCACHE_URL: memcached-19680.c124.us-central1-1.gce.cloud.redislabs.com:19680
+  # If you are using a Memcached server with SASL authentication enabled,
+  # fill in these values with your username and password.
+  MEMCACHE_USERNAME: mc-TCH0n
+  MEMCACHE_PASSWORD: X9FgsvZQzdOJdQHvHQYMI85W7ED3SSfc

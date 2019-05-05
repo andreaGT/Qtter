@@ -1,14 +1,14 @@
 var socket = io();
 var count = 0;
-socket.emit('get_trends','/');
+//socket.emit('get_trends','/');
 //socket.emit('count_tuits','/');
 // socket.emit('count_users','/');
 // socket.emit('count_cats','/');
 
-setTimeout(
-    function(){
-        socket.emit('get_trends','/');
-}, 4000);
+// setTimeout(
+//     function(){
+//         socket.emit('get_trends','/');
+// }, 4000);
 
 var interval = setInterval(function(){
 	socket.emit('get_trends','/');
@@ -17,7 +17,7 @@ var interval = setInterval(function(){
 		socket.emit('count_tuits', username[0].innerHTML);
 	}
 	count++;
-},60000);
+},40000);
 
 socket.on('get_trends', function(trends){
     var content = "";

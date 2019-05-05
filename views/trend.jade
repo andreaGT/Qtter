@@ -10,6 +10,19 @@ block content
 					h5.card-header Trending Qtags
 					.card-body
 						#trends
+							.row
+								div.col-lg-6
+									ul.list-unstyled.mb-0
+										each item, i in trendsn
+											if (i < 3)
+												li 
+													a(href="/trend?id=#{item.hashtag.replace('#','')}") #{item.hashtag}
+								div.col-lg-6
+									ul.list-unstyled.mb-0
+										each item, i in trendsn
+											if (i >= 3)
+												li 
+													a(href="/trend?id=#{item.hashtag.replace('#','')}") #{item.hashtag}	
 			// Post Content Column
 			.col-lg-8
 				#result

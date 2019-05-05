@@ -5,13 +5,13 @@ var icon_str = '<img src="/images/tuit.png" width="24" height="24" style="float:
 // socket.emit('count_users','/');
 // socket.emit('count_cats','/');
 
-setTimeout(
-	function(){
-		if(username[0] != null){
-			socket.emit('count_tuits', username[0].innerHTML);
-			socket.emit('get_tuits','/');
-		}
-}, 4000);
+// setTimeout(
+// 	function(){
+// 		if(username[0] != null){
+// 			socket.emit('count_tuits', username[0].innerHTML);
+// 			socket.emit('get_tuits','/');
+// 		}
+// }, 4000);
 
 var interval = setInterval(function(){
 	socket.emit('get_tuits','/');
@@ -20,7 +20,7 @@ var interval = setInterval(function(){
 		socket.emit('count_tuits', username[0].innerHTML);
 	}
 	count++;
-},60000);
+},40000);
 
 socket.on('get_tuits', function(tweets){
 	var content = "";

@@ -14,7 +14,7 @@ var http = require('http');
 
 var nconf = require('nconf');
 
-// Environment variables are defined in app.yaml.
+// // Environment variables are defined in app.yaml.
 let MEMCACHE_URL = process.env.MEMCACHE_URL || '127.0.0.1:11211';
 
 if (process.env.USE_GAE_MEMCACHE) {
@@ -127,12 +127,6 @@ io.on('connection', function(socket){
       });
     });
   });
-  // socket.on('count_cats', function(msg){
-	//   tdb.catList(function(e,res){
-	// 	  io.emit('count_cats', res);
-	//   });
-  // });
-
 });
 
 // Start the server

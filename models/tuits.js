@@ -16,7 +16,7 @@ functions.createConnection = function(callback){
     client.connect(err => {
 
         const db = client.db(dbName);
-        console.log("Conexion creada");
+        // console.log("Conexion creada");
         callback(db, client);
     });
 }

@@ -16,8 +16,9 @@ block content
 									th Qtags
 								tr
 									td 
-										#no_qweets
-									td 40
+										#no_qweets 
+											= totalqs
+									td .
 				// Comments Form
 				.card.my-4
 					h5.card-header Write your thoughts:
@@ -30,12 +31,12 @@ block content
 			// Post Content Column
 			.col-lg-8
 				#result
-					//- each item in tuits
-					//- 	div#tuit
-					//- 		b #{item.name}.
-					//- 		b @#{item.user}
-					//- 		b - #{new Date(item.time)}
-					//- 		hr
-					//- 		br
-					//- 		pre #{item.txt}
+					each item in tuits
+						div#tuit
+							b #{item.username}.
+							a(href="/user?id=#{item.username}") @#{item.username}
+							b - #{new Date(item.fecha_creacion)}
+							hr
+							br
+							pre #{item.tweet}
 		

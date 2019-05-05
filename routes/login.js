@@ -1,4 +1,6 @@
 var usr = require('../models/users');
+var rdb = require('../models/feed.js');
+var tdb = require('../models/tuits.js');
 
 module.exports = function(app){
 	
@@ -18,15 +20,20 @@ module.exports = function(app){
 			usr.data.getUsersByQuery(db, query, function(users){
 				if(users.length > 0){
 					console.log("Usuario encontrado: " + users[0].username);
-					client.close();
-					console.log("Conexion cerrada");
 					sess.user_id = usernametxt;
-					res.render('home',{title: 'Qtter', user_id: usernametxt});
+					var totalqs = 0;
+					rdb.data.countTweets('*'+usernametxt+'*',function(total){
+						totalqs = total;
+					});
+					tdb.data.getTweets(db, function(tweets){
+						res.render('home',{title: 'Qtter', user_id: usernametxt, tuits: tweets, totalqs: totalqs});
+						client.close();
+					});
 				}else{
 					req.flash('BAD', " Username or password incorrect, try again!",'/');
+					client.close();
 				}
 			});
-			client.close();
 		});
 	})
 }

@@ -1,4 +1,5 @@
 var tdb = require('../models/tuits')
+var rdb = require('../models/feed.js');
 
 module.exports = function(app){
         
@@ -7,7 +8,16 @@ module.exports = function(app){
             var sess = req.session;
             var user_id = sess.user_id;
             if(user_id != ""){
-                res.render('home',{ title: 'Qtter', user_id: user_id });	
+                var totalqs = 0;
+                rdb.data.countTweets('*'+user_id+'*',function(total){
+                    totalqs = total;
+                });
+                tdb.data.createConnection(function(db, client){
+                    tdb.data.getTweets(db, function(tweets){
+                        res.render('home',{title: 'Qtter', user_id: user_id, tuits: tweets, totalqs: totalqs});
+                        client.close();
+                    });	
+                });
             }else{
                 res.redirect('/');
             }
@@ -22,7 +32,17 @@ module.exports = function(app){
             var sess = req.session;
             var user_id = sess.user_id;
             if(user_id != ""){
-                res.render('profile',{ title: 'Qtter', user_id: user_id });
+                var totalqs = 0;
+                rdb.data.countTweets('*'+user_id+'*',function(total){
+                    totalqs = total;
+                });
+                tdb.data.createConnection(function(db, client){
+                    var query = {'username': user_id};
+                    tdb.data.getTweetsByQuery(db, query, function(tweets){
+                        res.render('profile', {title: 'Qtter', user_id: user_id, tuits: tweets, totalqs: totalqs});
+                        client.close();
+                    });	
+                });
             }else{
                 res.redirect('/');
             }
@@ -43,11 +63,15 @@ module.exports = function(app){
                     re = '.*#' + id + '.*'  
                 }
                 tdb.data.createConnection(function(db, client){
-                var query = {'tweet': new RegExp(re,'i') };
-                console.log(query);
+                    var query = {'tweet': new RegExp(re,'i') };
+                    // console.log(query);
+                    var trendsn = "";
+                    tdb.data.getTrends(db, function(trends){
+                        trendsn = trends;
+                    });
                     tdb.data.getTweetsByQuery(db, query, function(tweets){
                         // console.log(tweets);
-                        res.render('trend', {title: 'Qtter', tuits: tweets});
+                        res.render('trend', {title: 'Qtter', tuits: tweets, trendsn: trendsn});
                         client.close();
                     });
                 });
